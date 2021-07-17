@@ -110,7 +110,6 @@ function RegisterPage(props) {
                       : "text-input"
                   }
                 />
-                <br /> <br />
                 {errors.name && touched.name && (
                   <div className="input-feedback">{errors.name}</div>
                 )}
@@ -129,7 +128,6 @@ function RegisterPage(props) {
                       : "text-input"
                   }
                 />
-                <br /> <br />
                 {errors.lastName && touched.lastName && (
                   <div className="input-feedback">{errors.lastName}</div>
                 )}
@@ -156,7 +154,6 @@ function RegisterPage(props) {
                       : "text-input"
                   }
                 />
-                <br /> <br />
                 {errors.email && touched.email && (
                   <div className="input-feedback">{errors.email}</div>
                 )}
@@ -183,7 +180,6 @@ function RegisterPage(props) {
                       : "text-input"
                   }
                 />
-                <br /> <br />
                 {errors.password && touched.password && (
                   <div className="input-feedback">{errors.password}</div>
                 )}

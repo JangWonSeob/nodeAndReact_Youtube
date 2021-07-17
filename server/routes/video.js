@@ -4,14 +4,18 @@ const router = express.Router();
 
 const { auth } = require("../middleware/auth");
 const multer = require("multer");
+const ffmpeg = require("fluent-ffmpeg");
 
 var storage = multer.diskStorage({
+  // 파일 저장 위치
   destination: (req, file, cb) => {
     cb(null, "uploads/");
   },
+  // 파일 이름 : 날짜_파일명
   filename: (req, file, cb) => {
     cb(null, `${Date.now()}_${file.originalname}`);
   },
+  //   mp4만 저장 가능하도록 설정
   fileFilter: (req, file, cb) => {
     const ext = path.extname(file.originalname);
     if (ext !== ".mp4") {
@@ -38,6 +42,47 @@ router.post("/uploadfiles", (req, res) => {
       fileName: res.req.file.filename,
     });
   });
+});
+
+router.post("/thumbnail", (req, res) => {
+  // 썸네일 생성하고 비디오 러닝타임도 가져오기
+
+  let filePath = "";
+  let fileDuration = "";
+
+  // 비디오 정보 가져오기(duration: 영상시간)
+  ffmpeg.ffprobe(req.body.url, function (err, metadata) {
+    console.dir(metadata);
+    console.log(metadata.format.duration);
+    fileDuration = metadata.format.duration;
+  });
+
+  // 썸네일 생성
+  ffmpeg(req.body.url)
+    .on("filenames", function (filenames) {
+      console.log("Will generate " + filenames.join(", "));
+      console.log("filenames : ", filenames);
+
+      filePath = "uploads/thumbnails/" + filenames[0];
+    })
+    .on("end", function () {
+      console.log("screenshots taken");
+      return res.json({
+        success: true,
+        url: filePath,
+        fileDuration: fileDuration,
+      });
+    })
+    .on("error", function (err) {
+      console.log(err);
+      return res.json({ success: false, err });
+    })
+    .screenshot({
+      count: 3, // Screenshot 저장 갯수
+      folder: "uploads/thumbnails", // Screenshot 저장 위치
+      size: "320x240", // Screenshot 사이즈
+      filename: "thumbnail-%b.png", // Screenshot 이름
+    });
 });
 
 module.exports = router;

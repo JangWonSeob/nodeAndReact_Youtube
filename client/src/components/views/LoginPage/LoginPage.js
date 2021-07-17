@@ -3,8 +3,7 @@ import { withRouter } from "react-router-dom";
 import { loginUser } from "../../../_actions/user_actions";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { Form, Input, Button, Checkbox, Typography } from "antd";
-import Icon from "@ant-design/icons";
+import { Form, Input, Button, Checkbox, Typography, Icon } from "antd";
 import { useDispatch } from "react-redux";
 
 const { Title } = Typography;
@@ -102,7 +101,6 @@ function LoginPage(props) {
                       : "text-input"
                   }
                 />
-                <br /> <br />
                 {errors.email && touched.email && (
                   <div className="input-feedback">{errors.email}</div>
                 )}
@@ -124,7 +122,7 @@ function LoginPage(props) {
                       : "text-input"
                   }
                 />
-                <br /> <br />
+
                 {errors.password && touched.password && (
                   <div className="input-feedback">{errors.password}</div>
                 )}
