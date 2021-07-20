@@ -75,12 +75,11 @@ function VideoUploadPage(props) {
       }
     });
   };
-
   const onSubmit = (e) => {
     e.preventDefault();
 
     const variables = {
-      writer: user.userData_id,
+      writer: user.userData._id,
       title: VideoTitle,
       description: Description,
       privacy: Private,
@@ -93,7 +92,11 @@ function VideoUploadPage(props) {
       console.log("res.data upload : ", res.data);
       if (res.data.success) {
         message.success("성공적으로 업로드를 했습니다.");
-        props.history.push("/");
+
+        // 3초 후에 LandingPage로 이동
+        setTimeout(() => {
+          props.history.push("/");
+        }, 3000);
       } else {
         alert("비디오 업로드에 실패 했습니다.");
       }

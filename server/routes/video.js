@@ -31,6 +31,17 @@ var upload = multer({ storage: storage }).single("file");
 //             Video
 //=================================
 
+router.get("/getVideos", (req, res) => {
+  //비디오를 DB에서 가져와서 클라이언트에 보낸다.
+
+  Video.find()
+    .populate("writer")
+    .exec((err, videos) => {
+      if (err) return res.status(400).json({ success: false, err });
+      res.status(200).json({ success: true, videos });
+    });
+});
+
 router.post("/uploadfiles", (req, res) => {
   upload(req, res, (err) => {
     if (err) {
@@ -45,6 +56,7 @@ router.post("/uploadfiles", (req, res) => {
 });
 
 router.post("/uploadVideo", (req, res) => {
+  console.log("req.body : ", req.body);
   // 비디오 정보들을 저장한다.
   const video = new Video(req.body);
   video.save((err, doc) => {
