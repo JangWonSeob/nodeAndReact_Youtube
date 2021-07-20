@@ -42,6 +42,17 @@ router.get("/getVideos", (req, res) => {
     });
 });
 
+router.post("/getVideoDetail", (req, res) => {
+  console.log("req.body detail :", req.body);
+  Video.findOne({ _id: req.body.videoId })
+    .populate("writer")
+    .exec((err, videosDetail) => {
+      // console.log("videosDetail video :", videosDetail);
+      if (err) return res.status(400).json({ success: false, err });
+      return res.status(200).json({ success: true, videosDetail });
+    });
+});
+
 router.post("/uploadfiles", (req, res) => {
   upload(req, res, (err) => {
     if (err) {
