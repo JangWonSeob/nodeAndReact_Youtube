@@ -8,7 +8,6 @@ function SideVideo() {
     axios.get("/api/video/getVideos").then((res) => {
       if (res.data.success) {
         console.log(res.data.videos);
-        console.log("res.data.videos.thumbnail : ", res.data.videos.thumbnail);
         setsideVideo(res.data.videos);
       } else {
         alert("비디오를 불러오지 못했습니다.");

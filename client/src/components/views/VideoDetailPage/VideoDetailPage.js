@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Row, Col, List, Avatar } from "antd";
 import axios from "axios";
 import SideVideo from "./Sections/SideVideo";
+import Subscribe from "./Sections/Subscribe";
 
 function VideoDetailPage(props) {
   const videoId = props.match.params.videoId;
@@ -31,7 +32,14 @@ function VideoDetailPage(props) {
               controls
             />
             <span>{VidoeDetail.title}</span>
-            <List.Item actions>
+            <List.Item
+              actions={[
+                <Subscribe
+                  userTo={VidoeDetail.writer._id}
+                  userFrom={localStorage.getItem("userId")} // local Storage에 미리 저장해둔 userId를 가져온다.
+                />,
+              ]}
+            >
               <List.Item.Meta
                 avatar={<Avatar src={VidoeDetail.writer.image} />}
                 title={VidoeDetail.writer.name}
