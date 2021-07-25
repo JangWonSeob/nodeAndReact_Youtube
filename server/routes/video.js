@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { Video } = require("../models/Video");
+const { Subscriber } = require("../models/Subscriber");
 
 const { auth } = require("../middleware/auth");
 const multer = require("multer");
@@ -33,7 +34,6 @@ var upload = multer({ storage: storage }).single("file");
 
 router.get("/getVideos", (req, res) => {
   //비디오를 DB에서 가져와서 클라이언트에 보낸다.
-
   Video.find()
     .populate("writer")
     .exec((err, videos) => {
@@ -43,7 +43,7 @@ router.get("/getVideos", (req, res) => {
 });
 
 router.post("/getVideoDetail", (req, res) => {
-  console.log("req.body detail :", req.body);
+  // console.log("req.body detail :", req.body);
   Video.findOne({ _id: req.body.videoId })
     .populate("writer")
     .exec((err, videosDetail) => {
@@ -67,7 +67,7 @@ router.post("/uploadfiles", (req, res) => {
 });
 
 router.post("/uploadVideo", (req, res) => {
-  console.log("req.body : ", req.body);
+  // console.log("req.body : ", req.body);
   // 비디오 정보들을 저장한다.
   const video = new Video(req.body);
   video.save((err, doc) => {
@@ -115,6 +115,28 @@ router.post("/thumbnail", (req, res) => {
       size: "320x240", // Screenshot 사이즈
       filename: "thumbnail-%b.png", // Screenshot 이름
     });
+});
+
+router.post("/getSubscriptionVideos", (req, res) => {
+  // 구독 정보를 가져옵니다.
+  Subscriber.find({ userFrom: req.body.userFrom }).exec(
+    (err, subscribeInfo) => {
+      if (err) return res.status(200).json({ success: false, err });
+
+      let subscribeUser = [];
+      subscribeInfo.map((subscriber, index) => {
+        subscribeUser.push(subscriber.userTo);
+      });
+
+      Video.find({ writer: { $in: subscribeUser } })
+        .populate("writer")
+        .exec((err, videos) => {
+          if (err) return res.status(400).json({ success: false, err });
+          return res.status(200).json({ success: true, videos });
+        });
+    }
+  );
+  // 구독한 사람의 비디오를 가져옵니다.
 });
 
 module.exports = router;

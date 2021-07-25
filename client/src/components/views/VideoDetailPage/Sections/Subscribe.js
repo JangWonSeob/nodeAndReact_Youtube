@@ -4,12 +4,12 @@ import React, { useEffect, useState } from "react";
 function Subscribe(props) {
   const [SubscribeNumber, setSubscribeNumber] = useState(0);
   const [Subscribed, setSubscribed] = useState(false);
+
   useEffect(() => {
     let variable = {
       userTo: props.userTo,
     };
     axios.post("/api/subscribe/subscribeNumber", variable).then((res) => {
-      console.log(1);
       if (res.data.success) {
         setSubscribeNumber(res.data.subscribeNumber);
       } else {
@@ -21,7 +21,6 @@ function Subscribe(props) {
       userFrom: props.userFrom,
     };
     axios.post("/api/subscribe/subscribed", subscribedvariable).then((res) => {
-      console.log(2);
       console.log("res.data.subscribed : ", res.data.subscribed);
       if (res.data.success) {
         setSubscribed(res.data.subscribed);
@@ -41,8 +40,7 @@ function Subscribe(props) {
       axios
         .post("/api/subscribe/unSubscribe", subscribeVariable)
         .then((res) => {
-          // console.log(res.data);
-          console.log(3);
+          console.log(res.data);
           if (res.data.success) {
             setSubscribeNumber(SubscribeNumber - 1);
             setSubscribed(!Subscribed);
@@ -54,7 +52,7 @@ function Subscribe(props) {
     //아직 구독 중이 아니라면
     else {
       axios.post("/api/subscribe/subscribe", subscribeVariable).then((res) => {
-        console.log(4);
+        console.log("subscribe : ", res.data);
         if (res.data.success) {
           setSubscribeNumber(SubscribeNumber + 1);
           setSubscribed(!Subscribed);
@@ -65,8 +63,8 @@ function Subscribe(props) {
     }
   };
 
-  console.log("SubscribeNumber : ", SubscribeNumber);
-  console.log("Subscribed", Subscribed);
+  // console.log("SubscribeNumber : ", SubscribeNumber);
+  // console.log("Subscribed", Subscribed);
   return (
     <div>
       <div>구독자 {SubscribeNumber}명</div>

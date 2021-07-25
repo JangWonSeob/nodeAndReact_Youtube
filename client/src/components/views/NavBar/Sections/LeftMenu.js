@@ -14,13 +14,14 @@ function LeftMenu(props) {
           <Menu.Item key="register">
             <a href="/register">register</a>
           </Menu.Item>
-          <Menu.Item key="setting:2">
+          <Menu.Item key="Login">
             <a href="/login">Login</a>
           </Menu.Item>
         </MenuItemGroup>
         <MenuItemGroup title="Item 2">
-          <Menu.Item key="setting:3">Option 3</Menu.Item>
-          <Menu.Item key="setting:4">Option 4</Menu.Item>
+          <Menu.Item key="subscription">
+            <a href="/subscription">Subscription</a>
+          </Menu.Item>
         </MenuItemGroup>
       </SubMenu>
     </Menu>

@@ -5,20 +5,25 @@ import moment from "moment";
 const { Title } = Typography;
 const { Meta } = Card;
 
-function LandingPage() {
+function SubscribePage() {
   const [Videos, setVideos] = useState([]);
 
-  useEffect(() => {
-    axios.get("/api/video/getVideos").then((res) => {
-      if (res.data.success) {
-        console.log(res.data);
-        setVideos(res.data.videos);
-      } else {
-        alert("비디오를 불러오지 못했습니다.");
-      }
-    });
-  }, []);
+  let subscriptionVariables = {
+    userFrom: localStorage.getItem("userId"),
+  };
 
+  useEffect(() => {
+    axios
+      .post("/api/video/getSubscriptionVideos", subscriptionVariables)
+      .then((res) => {
+        if (res.data.success) {
+          console.log(res.data);
+          setVideos(res.data.videos);
+        } else {
+          alert("비디오를 불러오지 못했습니다.");
+        }
+      });
+  }, []);
   const renderCards = Videos.map((video, index) => {
     console.log("video :", video);
     var minutes = Math.floor(video.duration / 60);
@@ -69,10 +74,9 @@ function LandingPage() {
       </Col>
     );
   });
-
   return (
     <div style={{ width: "85%", margin: "3rem auto" }}>
-      <Title level={2}> Recommended </Title>
+      <Title level={2}> Subscription </Title>
       <hr />
 
       <Row gutter={16}>{renderCards}</Row>
@@ -80,4 +84,4 @@ function LandingPage() {
   );
 }
 
-export default LandingPage;
+export default SubscribePage;
