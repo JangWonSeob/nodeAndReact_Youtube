@@ -11,6 +11,9 @@ function SingleComment(props) {
 
   const videoId = props.videoId;
 
+  console.log("comment props : ", props.comment);
+  console.log("comment props222 : ", props.comment._id);
+
   const onClickOpenReply = () => {
     setOpenReply(!OpenReply);
   };

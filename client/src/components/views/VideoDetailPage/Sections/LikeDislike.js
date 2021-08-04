@@ -10,19 +10,19 @@ function LikeDislike(props) {
 
   let variable = {};
 
-  console.log("props : ", props);
-  let videoId = props.videoId;
-  let video = props.video;
-  console.log("video : ", video);
-  console.log("videoId : ", videoId);
+  //   console.log("props : ", props);
+  //   let videoId = props.videoId;
+  //   let video = props.video;
+  //   console.log("video : ", video);
+  //   console.log("videoId : ", videoId);
   if (props.video) {
     variable = { videoId: props.videoId, userId: props.userId };
   } else {
     variable = { commentId: props.commentId, userId: props.userId };
   }
-  console.log("props video : ", props.video);
-  console.log("props videoId : ", props.videoId);
-  console.log("props22 : ", props);
+  //   console.log("props video : ", props.video);
+  //   console.log("props videoId : ", props.videoId);
+  //   console.log("props22 : ", props);
   useEffect(() => {
     axios.post("/api/like/getLikes", variable).then((res) => {
       console.log("likes data: ", res.data);
