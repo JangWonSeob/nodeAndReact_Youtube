@@ -4,12 +4,15 @@ import axios from "axios";
 import SideVideo from "./Sections/SideVideo";
 import Subscribe from "./Sections/Subscribe";
 import Comment from "./Sections/Comment";
+import LikeDislike from "./Sections/LikeDislike";
 
 function VideoDetailPage(props) {
   const videoId = props.match.params.videoId;
   const variabele = {
     videoId: videoId,
   };
+
+  console.log("videoId : ", videoId);
   const [Comments, setComments] = useState([]);
   const [VidoeDetail, setVidoeDetail] = useState([]);
   useEffect(() => {
@@ -35,7 +38,7 @@ function VideoDetailPage(props) {
   };
 
   if (VidoeDetail.writer) {
-    const subscribeBotton = VidoeDetail.writer._id !==
+    const subscribeButton = VidoeDetail.writer._id !==
       localStorage.getItem("userId") && (
       <Subscribe
         userTo={VidoeDetail.writer._id}
@@ -52,7 +55,16 @@ function VideoDetailPage(props) {
               controls
             />
             <span>{VidoeDetail.title}</span>
-            <List.Item actions={[subscribeBotton]}>
+            <List.Item
+              actions={[
+                <LikeDislike
+                  video
+                  videoId={videoId}
+                  userId={localStorage.getItem("userId")}
+                />,
+                subscribeButton,
+              ]}
+            >
               <List.Item.Meta
                 avatar={<Avatar src={VidoeDetail.writer.image} />}
                 title={VidoeDetail.writer.name}

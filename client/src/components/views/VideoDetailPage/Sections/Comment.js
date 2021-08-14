@@ -6,8 +6,10 @@ import ReplyComment from "./ReplyComment";
 
 function Comment(props) {
   const [CommentValue, setCommentValue] = useState("");
-  const user = useSelector((state) => state.user);
+  //  const user = useSelector((state) => state.user);
   const videoId = props.videoId;
+
+  //  console.log("user redux : ", user.userData._id);
 
   const handClick = (e) => {
     setCommentValue(e.currentTarget.value);
@@ -17,14 +19,14 @@ function Comment(props) {
 
     const variabele = {
       content: CommentValue,
-      writer: user.userData._id,
+      writer: localStorage.getItem("userId"),
       videoId: videoId,
     };
     axios.post("/api/comment/saveComment", variabele).then((res) => {
       console.log(res.data);
       if (res.data.success) {
         setCommentValue(""); // 댓글 전송 후 썻던 Input 창에 작성한 댓글이 지워짐
-        props.refreshFuncion(res.data.result);
+        props.refreshFunction(res.data.result);
       } else {
         alert("댓글을 저장하지 못했습니다.");
       }
@@ -41,7 +43,7 @@ function Comment(props) {
         props.CommentLists.map(
           (comment, index) =>
             !comment.responseTo && (
-              <React.Fragment>
+              <React.Fragment key={index}>
                 <SingleComment
                   refreshFunction={props.refreshFunction}
                   comment={comment}

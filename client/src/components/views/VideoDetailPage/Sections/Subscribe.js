@@ -69,7 +69,7 @@ function Subscribe(props) {
     <div>
       <div>구독자 {SubscribeNumber}명</div>
       <br />
-      <botton
+      <button
         style={{
           backgroundColor: `${Subscribed ? "gray" : "red"}`,
           borderRadis: "4px",
@@ -82,7 +82,7 @@ function Subscribe(props) {
         onClick={onSubscribe}
       >
         {Subscribed ? "구독 중" : "구독하기"}
-      </botton>
+      </button>
     </div>
   );
 }
